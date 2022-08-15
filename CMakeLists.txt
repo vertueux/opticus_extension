@@ -5,6 +5,8 @@ project(EXTENSION_NAME VERSION 0.0.1 LANGUAGES CXX)
 # to the executable or other dynamic linked library files of the engine.
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin) 
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # C++ standard can be overridden when this is used as a sub-project.
 if(NOT CMAKE_CXX_STANDARD)
   # This project is using C++20
@@ -26,12 +28,7 @@ add_library(${PROJECT_NAME} SHARED
 
   "private/EXTENSION_NAME/my_private_api.cc"
   "private/EXTENSION_NAME/my_private_api.h"
-
-  # Do not touch.
-  "extension/api/extension_dll_export.h"
 )
-
-add_compile_definitions(OPTICUS_BUILD_DLL)
 
 set_target_properties(EXTENSION_NAME PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -42,7 +39,4 @@ target_include_directories(${PROJECT_NAME}
   PRIVATE
     $<INSTALL_INTERFACE:/private>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-
-    $<INSTALL_INTERFACE:/>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
 )
